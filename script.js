@@ -2,6 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose")
 const app = express()
 app.use(express.json())
+app.use(express.urlencoded({extended:false}))
 app.listen("3500",()=>{
     console.log("run on port 3500")
 })
@@ -51,30 +52,20 @@ app.get("/api/country/:id" , async (req,res) =>{
    }
 })
 
-app.put("/api/country/:id" , async (req,res) =>{
-  try{
-   const {id}=req.params
-   const country = await Country.findByIdUpdate(id,req.body);
-   if(!country){
-     return res.status(404).json({message:"country is not found"})
-   }
-
-   res.status(200).json({message:"country succeffuly update"})
-  }catch(error){
-
-  }
+app.put("/api/country/:id" , async (req,res)=>{
+    const {id}= req.params
+    const country = await Country.findByIdUpdate(id,req.body);
+    if(!country){
+      return res.status(404).json({message:"country is not found"})
+    }
+    res.status(200).json({message:"country is uppdated successfully"})
 })
 
-app.delete("/api/country:id" , async (req,res)=>{
-     try{
-    const {id} = req.params
-      const country= await Country.findByIdAndDelete(id);
-      if(!country){
-        return res.status(404).json({message:"country is not found"})
-      }
-      res.status(200).json({message:"country is deleted succeffully"})
-   
-    }catch(error){
-        res.status(500).json({message:error.message})
-    }
+app.delete("/api/country/:id" , async (req,res) =>{
+  const {id} = req.params;
+  const country = await Country.findByIdAndDelete(id)
+  if(!country){
+    return res.status(404).json({message:'country is not found'})
+  }
+  res.status(200).json({message:'country is successfully deleded'})
 })
