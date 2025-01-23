@@ -54,7 +54,7 @@ app.get("/api/country/:id" , async (req,res) =>{
 
 app.put("/api/country/:id" , async (req,res)=>{
     const {id}= req.params
-    const country = await Country.findByIdUpdate(id,req.body);
+    const country = await Country.findByIdAndUpdate(id,req.body);
     if(!country){
       return res.status(404).json({message:"country is not found"})
     }
